@@ -5,26 +5,27 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 /**
- * @author FHZ
+ * @author FHZ creatre on 2020-4-27 09:10:05
+ * 压缩图片线程任务处理类 - CompressImageTask
  */
-public class CompressImageTask implements Runnable{
+public class CompressImageTask implements Runnable {
 
-    private String afterImagePath;
+    private String exportFilePath;
     private String newFilePath;
     private File file;
 
-    public CompressImageTask(String afterImagePath, File file) {
-        this.afterImagePath = afterImagePath;
-        this.newFilePath = afterImagePath;
+    public CompressImageTask(String exportFilePath, File file) {
+        this.exportFilePath = exportFilePath;
+        this.newFilePath = exportFilePath;
         this.file = file;
     }
 
     public String getAfterImagePath() {
-        return afterImagePath;
+        return exportFilePath;
     }
 
-    public void setAfterImagePath(String afterImagePath) {
-        this.afterImagePath = afterImagePath;
+    public void setAfterImagePath(String exportFilePath) {
+        this.exportFilePath = exportFilePath;
     }
 
     public String getNewFilePath() {
@@ -77,7 +78,7 @@ public class CompressImageTask implements Runnable{
         } finally {
             bi = null;
             outImageMartrix = null;
-            newFilePath = afterImagePath;
+            newFilePath = exportFilePath;
         }
     }
 
