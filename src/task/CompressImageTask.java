@@ -16,7 +16,7 @@ public class CompressImageTask implements Runnable {
 
     public CompressImageTask(String exportFilePath, File file) {
         this.exportFilePath = exportFilePath;
-        this.newFilePath = exportFilePath;
+        this.newFilePath = exportFilePath + "\\";
         this.file = file;
     }
 
