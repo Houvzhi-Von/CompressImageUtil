@@ -10,33 +10,24 @@ import java.io.File;
  */
 public class CompressImageTask implements Runnable {
 
-    private String exportFilePath;
+    /**
+     * 压缩后图片的导出路径
+     */
+    private final String exportFilePath;
+
+    /**
+     * 压缩后图片的全路径（包含文件名称及后缀）
+     */
     private String newFilePath;
-    private File file;
+
+    /**
+     * 源图片文件
+     */
+    private final File file;
 
     public CompressImageTask(String exportFilePath, File file) {
         this.exportFilePath = exportFilePath;
         this.newFilePath = exportFilePath + "\\";
-        this.file = file;
-    }
-
-    public String getAfterImagePath() {
-        return exportFilePath;
-    }
-
-    public void setAfterImagePath(String exportFilePath) {
-        this.exportFilePath = exportFilePath;
-    }
-
-    public String getNewFilePath() {
-        return newFilePath;
-    }
-
-    public File getFile() {
-        return file;
-    }
-
-    public void setFile(File file) {
         this.file = file;
     }
 
@@ -62,22 +53,22 @@ public class CompressImageTask implements Runnable {
         int type = bi.getType();
         int multiple = 1;
 
-        BufferedImage outImageMartrix = new BufferedImage(inWidth, inHeight, type);
+        BufferedImage outImageMatrix = new BufferedImage(inWidth, inHeight, type);
         for (int i = 0; i < inWidth; i++) {
             for (int j = 0; j < inHeight; j++) {
                 int pixel = bi.getRGB(i * multiple + inMinx, j * multiple + inMiny);
-                outImageMartrix.setRGB(i, j, pixel);
+                outImageMatrix.setRGB(i, j, pixel);
             }
         }
 
         try {
             newFilePath = newFilePath + imageName + ".jpg";
-            ImageIO.write(outImageMartrix, "jpg", new File(newFilePath));
+            ImageIO.write(outImageMatrix, "jpg", new File(newFilePath));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             bi = null;
-            outImageMartrix = null;
+            outImageMatrix = null;
             newFilePath = exportFilePath;
         }
     }

@@ -1,7 +1,8 @@
 import task.CompressImageTask;
+import util.Constant;
 
 import java.io.File;
-import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -10,6 +11,26 @@ import java.util.concurrent.TimeUnit;
  * 压缩图片工具执行类 - CompressImage
  */
 public class CompressImage {
+
+    /**
+     * 压缩图片工具执行方法 - 程序入口
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        System.out.println("------------------- Task Start -------------------");
+//        String filePath = args[0];
+//        String exportFilePath = args[1];
+
+        String filePath = "F:\\MyWork\\Photos\\Camera\\成片\\Nikon_D750\\2020.4.25";
+        String exportFilePath = "C:\\Users\\FHZ\\Pictures\\test";
+        try {
+            File[] files = getAllFileByPath(filePath);
+            getImage(files, exportFilePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * 获取 path 目录下所有的文件
@@ -23,6 +44,7 @@ public class CompressImage {
             if (files.length < 1) {
                 throw new Exception("[ " + path + "\\ ] 目录下无文件");
             }
+            System.out.println("[ " + path + "\\ ] 目录下的图片文件如下:    ");
             for (File file1 : files) {
                 System.out.println(file1.getAbsolutePath());
             }
@@ -35,26 +57,12 @@ public class CompressImage {
      */
     public static void getImage(File[] files, String exportFilePath) {
         ThreadPoolExecutor executor = new ThreadPoolExecutor
-                (4, 8, 200, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<>(5));
+                (4, 8, 200, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
         for (File file : files) {
             CompressImageTask task = new CompressImageTask(exportFilePath, file);
             executor.execute(task);
         }
         executor.shutdown();
-    }
-
-    public static void main(String[] args) {
-        long startTime = System.currentTimeMillis();
-
-        String filePath = args[0];
-        String exportFilePath = args[1];
-        try {
-            File[] files = getAllFileByPath(filePath);
-            getImage(files, exportFilePath);
-            System.out.println("本次压缩图片耗时:   " + (System.currentTimeMillis() - startTime) + "  ms");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
 }
