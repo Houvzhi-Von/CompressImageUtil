@@ -19,11 +19,8 @@ public class CompressImage {
      */
     public static void main(String[] args) {
         System.out.println("------------------- Task Start -------------------");
-//        String filePath = args[0];
-//        String exportFilePath = args[1];
-
-        String filePath = "F:\\MyWork\\Photos\\Camera\\成片\\Nikon_D750\\2020.4.25";
-        String exportFilePath = "C:\\Users\\FHZ\\Pictures\\test";
+        String filePath = args[0];
+        String exportFilePath = args[1];
         try {
             File[] files = getAllFileByPath(filePath);
             getImage(files, exportFilePath);
