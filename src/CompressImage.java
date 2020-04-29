@@ -1,5 +1,4 @@
 import task.CompressImageTask;
-import util.Constant;
 
 import java.io.File;
 import java.util.concurrent.LinkedBlockingQueue;
