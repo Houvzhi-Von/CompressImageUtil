@@ -52,8 +52,9 @@ public class CompressImage {
      * 压缩图片方法
      */
     public static void getImage(File[] files, String exportFilePath) {
-        ThreadPoolExecutor executor = new ThreadPoolExecutor
-                (4, 8, 200, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
+        ThreadPoolExecutor executor =
+                new ThreadPoolExecutor(4, 8, 200,
+                        TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
         for (File file : files) {
             CompressImageTask task = new CompressImageTask(exportFilePath, file);
             executor.execute(task);
