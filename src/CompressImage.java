@@ -20,9 +20,11 @@ public class CompressImage {
         System.out.println("------------------- Task Start -------------------");
         String filePath = args[0];
         String exportFilePath = args[1];
+        String modeName = args[2];
+
         try {
             File[] files = getAllFileByPath(filePath);
-            getImage(files, exportFilePath);
+            getImage(files, exportFilePath, modeName);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -51,11 +53,11 @@ public class CompressImage {
     /**
      * 压缩图片方法
      */
-    public static void getImage(File[] files, String exportFilePath) {
+    public static void getImage(File[] files, String exportFilePath, String modeName) {
         ThreadPoolExecutor executor = new ThreadPoolExecutor
                 (4, 8, 200, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
         for (File file : files) {
-            CompressImageTask task = new CompressImageTask(exportFilePath, file);
+            CompressImageTask task = new CompressImageTask(exportFilePath, modeName, file);
             executor.execute(task);
         }
         executor.shutdown();
