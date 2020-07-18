@@ -1,8 +1,11 @@
 package task;
 
+import util.FileNameModeEnum;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.time.LocalDateTime;
 
 /**
  * @author FHZ creatre on 2020-4-27 09:10:05
@@ -21,12 +24,18 @@ public class CompressImageTask implements Runnable {
     private String newFilePath;
 
     /**
+     * 导出图片的文件命名模式
+     */
+    private String modeName;
+
+    /**
      * 源图片文件
      */
     private final File file;
 
-    public CompressImageTask(String exportFilePath, File file) {
+    public CompressImageTask(String exportFilePath, String modeName, File file) {
         this.exportFilePath = exportFilePath;
+        this.modeName = modeName;
         this.newFilePath = exportFilePath + "\\";
         this.file = file;
     }
@@ -34,9 +43,17 @@ public class CompressImageTask implements Runnable {
     @Override
     public void run() {
         String beforeImagePath = file.getAbsolutePath();
+        String imageName = null;
         int begin = beforeImagePath.lastIndexOf("\\");
         int end = beforeImagePath.lastIndexOf(".");
-        String imageName = "new_" + beforeImagePath.substring(begin + 1, end);
+
+        if (modeName.equals(FileNameModeEnum.DEFAULT_EXPORT_MODE.getModeName())) {
+            imageName = "new_" + beforeImagePath.substring(begin + 1, end);
+        } else if (modeName.equals(FileNameModeEnum.DATE_EXPORT_MODE.getModeName())) {
+            imageName = LocalDateTime.now().getMonth().getValue() + "_" +
+                    LocalDateTime.now().getDayOfMonth() + "_" +
+                    beforeImagePath.substring(begin + 1, end) + "";
+        }
 
         File inFile = new File(beforeImagePath);
         BufferedImage bi = null;
